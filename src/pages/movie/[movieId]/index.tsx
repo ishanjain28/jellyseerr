@@ -1,5 +1,5 @@
 import MovieDetails from '@app/components/MovieDetails';
-import { getRequestHeaders } from '@app/utils/localRequestHelper';
+import { getAuthHeaders } from '@app/utils/localRequestHelper';
 import type { MovieDetails as MovieDetailsType } from '@server/models/Movie';
 import type { GetServerSideProps, NextPage } from 'next';
 
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<MoviePageProps> = async (
       process.env.PORT || 5055
     }/api/v1/movie/${ctx.query.movieId}`,
     {
-      headers: getRequestHeaders(ctx),
+      headers: getAuthHeaders(ctx),
     }
   );
   if (!res.ok) throw new Error();
