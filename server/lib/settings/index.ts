@@ -169,8 +169,21 @@ export interface NetworkSettings {
   csrfProtection: boolean;
   forceIpv4First: boolean;
   trustProxy: boolean;
+  trustedProxies: TrustedProxies;
+  forwardAuth: ForwardAuthSettings;
   proxy: ProxySettings;
   dnsCache: DnsCacheSettings;
+}
+
+export interface TrustedProxies {
+  v4: string[];
+  v6: string[];
+}
+
+export interface ForwardAuthSettings {
+  enabled: boolean;
+  userHeader: string;
+  emailHeader: string;
 }
 
 interface PublicSettings {
@@ -565,6 +578,15 @@ class Settings {
         csrfProtection: false,
         forceIpv4First: false,
         trustProxy: false,
+        trustedProxies: {
+          v4: [],
+          v6: [],
+        },
+        forwardAuth: {
+          enabled: false,
+          userHeader: '',
+          emailHeader: '',
+        },
         proxy: {
           enabled: false,
           hostname: '',
