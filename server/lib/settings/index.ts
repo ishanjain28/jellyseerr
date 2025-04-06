@@ -3,6 +3,7 @@ import { Permission } from '@server/lib/permissions';
 import { runMigrations } from '@server/lib/settings/migrator';
 import { randomUUID } from 'crypto';
 import fs from 'fs/promises';
+import type { Address4, Address6 } from 'ip-address';
 import { merge } from 'lodash';
 import path from 'path';
 import webpush from 'web-push';
@@ -138,8 +139,20 @@ export interface NetworkSettings {
   csrfProtection: boolean;
   forceIpv4First: boolean;
   trustProxy: boolean;
-  enableForwardAuth: boolean;
+  trustedProxies: TrustedProxies;
+  forwardAuth: ForwardAuthSettings;
   proxy: ProxySettings;
+}
+
+export interface TrustedProxies {
+  v4: Address4[];
+  v6: Address6[];
+}
+
+export interface ForwardAuthSettings {
+  enabled: boolean;
+  userHeader: string;
+  emailHeader?: string;
 }
 
 interface PublicSettings {
@@ -509,7 +522,15 @@ class Settings {
       network: {
         csrfProtection: false,
         trustProxy: false,
-        enableForwardAuth: false,
+        trustedProxies: {
+          v4: [],
+          v6: [],
+        },
+        forwardAuth: {
+          enabled: false,
+          userHeader: '',
+          emailHeader: '',
+        },
         forceIpv4First: false,
         proxy: {
           enabled: false,
