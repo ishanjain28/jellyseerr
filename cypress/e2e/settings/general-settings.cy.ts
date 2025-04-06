@@ -16,6 +16,26 @@ describe('General Settings', () => {
     cy.visit('/settings/network');
 
     cy.get('#trustProxy').click();
+    cy.get('#trustedProxies').type('127.0.0.1');
+    cy.get('[data-testid=settings-network-form]').submit();
+    cy.get('[data-testid=modal-title]').should(
+      'contain',
+      'Server Restart Required'
+    );
+
+    cy.get('[data-testid=modal-ok-button]').click();
+    cy.get('[data-testid=modal-title]').should('not.exist');
+
+    cy.get('[type=checkbox]#trustProxy').click();
+    cy.get('[data-testid=settings-network-form]').submit();
+    cy.get('[data-testid=modal-title]').should('not.exist');
+  });
+
+  it('validation error if user & email headers are empty', () => {
+    cy.visit('/settings/network');
+
+    cy.get('#trustProxy').click();
+    cy.get('#trustedProxies').type('127.0.0.1');
     cy.get('[data-testid=settings-network-form]').submit();
     cy.get('[data-testid=modal-title]').should(
       'contain',
