@@ -332,6 +332,7 @@ const SettingsNetwork = () => {
                                   );
                                 }}
                               >
+                                <option value="">--Do not use--</option>
                                 {ForwardAuthAllowlist.map((item) => (
                                   <option value={item} key={item}>
                                     {item}
