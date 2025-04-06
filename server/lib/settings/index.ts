@@ -151,7 +151,7 @@ export interface TrustedProxies {
 export interface ForwardAuthSettings {
   enabled: boolean;
   userHeader: string;
-  emailHeader?: string;
+  emailHeader: string;
 }
 
 interface PublicSettings {
