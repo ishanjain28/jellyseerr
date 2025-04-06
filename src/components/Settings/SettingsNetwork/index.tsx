@@ -126,6 +126,7 @@ const SettingsNetwork = () => {
     })
     .test('email-or-user', 'Either email OR user required', (values) => {
       const { forwardAuthUserHeader, forwardAuthEmailHeader } = values;
+      console.log('ISHAN', forwardAuthUserHeader, forwardAuthEmailHeader);
       return forwardAuthUserHeader != '' || forwardAuthEmailHeader != '';
     });
 
