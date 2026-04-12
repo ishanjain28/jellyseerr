@@ -13,6 +13,7 @@ import { getSettings } from '@server/lib/settings';
 import logger from '@server/logger';
 import { checkUser, isAuthenticated } from '@server/middleware/auth';
 import deprecatedRoute from '@server/middleware/deprecation';
+import { addForwardAuthHeaders } from '@server/middleware/forwardauth';
 import { mapProductionCompany } from '@server/models/Movie';
 import { mapNetwork } from '@server/models/Tv';
 import { mapWatchProviderDetails } from '@server/models/common';
@@ -46,6 +47,7 @@ import user from './user';
 const router = Router();
 
 router.use(checkUser);
+router.use(addForwardAuthHeaders);
 
 router.get<unknown, StatusResponse>('/status', async (req, res) => {
   const githubApi = new GithubAPI();

@@ -13,6 +13,8 @@ export const getAuthHeaders = (
     return undefined;
   }
 
+  console.log(Object.keys(ctx.req));
+
   const forwardAuthVars: {
     [key: string]: string | string[] | undefined;
   } = {};
@@ -25,9 +27,6 @@ export const getAuthHeaders = (
   return {
     ...(ctx.req.headers.cookie && {
       cookie: ctx.req.headers.cookie,
-    }),
-    ...(ctx.req.headers['x-forwarded-for'] && {
-      'x-forwarded-for': ctx.req.headers['x-forwarded-for'] as string,
     }),
     ...forwardAuthVars,
   };

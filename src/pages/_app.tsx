@@ -280,6 +280,7 @@ CoreApp.getInitialProps = async (initialProps) => {
       }
     } else {
       try {
+        console.log(ctx.req?.settings);
         // Attempt to get the user by running a request to the local api
         const response = await axios.get<User>(
           `http://${process.env.HOST || 'localhost'}:${

@@ -8,6 +8,11 @@ declare global {
     export interface Request {
       user?: User;
       locale?: string;
+      settings: any;
+      // {
+      //   emailHeader: string;
+      //   userHeader: string;
+      // };
     }
   }
 
