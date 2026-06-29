@@ -59,6 +59,17 @@ export const checkUser: Middleware = async (req, _res, next) => {
     const userValue = (hasUserHeader && req.header(userHeader)) ?? '';
     const emailValue = (hasEmailHeader && req.header(emailHeader)) ?? '';
 
+    
+    // Reject forward-auth headers carrying line breaks
+    // Prevents forging new log entries and resolves future CodeQL issues
+    if (/[\r\n]/.test(userValue) || /[\r\n]/.test(emailValue)) {
+      logger.warn('Rejected forward-auth headers containing line breaks', {
+        label: 'Forward Auth',
+        ip: req.socket.remoteAddress,
+      });
+      return next();
+    }
+    
     // Match case-insensitively. Jellyfin's AuthenticateByName lowercases the
     // username before storing (so `jellyfinUsername` is `tina`), while most
     // IDPs preserve the original case in property mappings (`Tina`). Without
