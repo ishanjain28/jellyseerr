@@ -189,6 +189,9 @@ export interface NetworkSettings {
 export interface TrustedProxies {
   v4: string[];
   v6: string[];
+  // DNS names (e.g. docker compose service names) resolved at request time,
+  // so trust follows container recreations instead of a stale address.
+  hostnames: string[];
 }
 
 export interface ForwardAuthSettings {
@@ -628,6 +631,7 @@ class Settings {
         trustedProxies: {
           v4: [],
           v6: [],
+          hostnames: [],
         },
         forwardAuth: {
           enabled: false,

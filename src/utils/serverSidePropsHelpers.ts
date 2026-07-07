@@ -36,5 +36,13 @@ export const getAuthHeaders = (
       cookie: ctx.req.headers.cookie,
     }),
     ...forwardAuthVars,
+    // SSR API calls arrive from loopback, which checkUser trusts as a proxy.
+    // Pass the ORIGINAL peer address along so trust is evaluated against the
+    // real client socket, not the loopback hop — otherwise forward-auth
+    // headers arriving over an untrusted path are honored on every
+    // server-rendered page (login redirect loops, header spoofing).
+    ...(ctx.req.socket?.remoteAddress && {
+      'x-seerr-original-addr': ctx.req.socket.remoteAddress,
+    }),
   };
 };

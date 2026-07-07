@@ -96,7 +96,7 @@ settingsRoutes.post('/network', async (req, res) => {
   // It will not delete a value when the user deletes it
   // because that value still exists in local config.
   // So, it is necessary to clear this.
-  settings.network.trustedProxies = { v4: [], v6: [] };
+  settings.network.trustedProxies = { v4: [], v6: [], hostnames: [] };
   settings.network = merge(settings.network, req.body);
   await settings.save();
 
